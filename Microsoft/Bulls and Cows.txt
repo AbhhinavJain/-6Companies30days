@@ -1,0 +1,23 @@
+class Solution {
+public:
+    string getHint(string secret, string guess) {
+        vector<int> a(10),b(10);
+        for(auto x:secret)a[x-48] += 1;
+        for(auto x:guess)b[x-48] += 1;
+        int cow = 0,bull = 0;
+        for(int i=0;i<10;++i){
+            cow += min(a[i],b[i]);
+        }
+        for(int i=0;i<guess.size();++i){
+            if(secret[i]==guess[i]){
+                bull += 1;
+            }
+        }
+        cow -= bull;
+        string ans = to_string(bull);
+        ans += 'A';
+        ans += to_string(cow);
+        ans += 'B';
+        return ans;
+    }
+};

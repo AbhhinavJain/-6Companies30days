@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<vector<int> >ans;
+    void solve(int k,int n,int i,vector<int>&a){
+        if(k==0 && n==0){
+            ans.push_back(a);
+            return;
+        }
+        if(i>9){
+            return;
+        }
+        if(n>=i){
+            a.push_back(i);
+            solve(k-1,n-i,i+1,a);
+            a.pop_back();
+            solve(k,n,i+1,a);
+        }
+    }
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<int> a;
+        solve(k,n,1,a);
+        return ans;
+    }
+};

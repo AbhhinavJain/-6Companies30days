@@ -1,0 +1,34 @@
+Q - https://leetcode.com/problems/course-schedule/description/
+class Solution {
+public:
+    bool conn = false;
+    bool dfs(vector<vector<int>>& g,int s,vector<int>& vis,vector<int>& res){
+      vis[s] = true;
+        res[s] = true;
+        for(auto x:g[s]){
+            if(!vis[x]){
+                if(dfs(g,x,vis,res))return true;
+            }
+            else if(res[x]){
+                conn = true;
+                return true;
+            }
+        }
+        res[s] = false;
+        return false;
+    }
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> g(numCourses,vector<int>());
+        for(auto x:prerequisites){
+            g[x[0]].push_back(x[1]);
+        }
+        vector<int> vis(g.size()+1);
+        vector<int> res(g.size()+1);
+        for(int i=0;i<g.size();++i){
+            if(!vis[i]){
+                if(dfs(g,i,vis,res))return false;
+            }
+        }
+        return true;
+    }
+};

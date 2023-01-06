@@ -1,0 +1,40 @@
+Q - https://leetcode.com/problems/most-profitable-path-in-a-tree/description/
+
+class Solution {
+public:
+    bool dfs1(vector<vector<int>>&g,int s,int t,vector<int>&bres,vector<int>&vis){
+        if(vis[s])return 0;
+        vis[s] = 1;
+        bres[s] = t;
+        if(s==0){ return 1;}
+        bool ft = 0;  
+        for(auto x:g[s]){
+           if(dfs1(g,x,t+1,bres,vis)) return 1;
+        }
+        bres[s] = INT_MAX;
+        return 0;
+    }
+    int dfs(vector<vector<int>>&g,int s,int t,vector<int>&bres,vector<int>&vis,vector<int>&a,int prev){
+        int ans = 0;
+        if(bres[s]==t)ans += a[s]/2;
+        else if(t<bres[s] )ans += a[s];
+        int tr = INT_MIN;
+        for(auto x:g[s]){
+            if(x==prev)continue;
+            tr = max(tr,dfs(g,x,t+1,bres,vis,a,s));
+        }
+        return tr==INT_MIN? ans : ans+tr;
+    }
+    int mostProfitablePath(vector<vector<int>>& edges, int bob, vector<int>& amount) {
+        vector<vector<int>>g(edges.size()+1);
+        for(auto x:edges){
+            g[x[0]].push_back(x[1]);
+            g[x[1]].push_back(x[0]);
+        }
+        vector<int> bres(amount.size(),INT_MAX),vis(amount.size()+1);
+        dfs1(g,bob,0,bres,vis);
+        vis.clear();
+        vis.resize(amount.size()+1);
+        return dfs(g,0,0,bres,vis,amount,0);
+    }
+};

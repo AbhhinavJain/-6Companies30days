@@ -1,0 +1,24 @@
+Q - https://leetcode.com/problems/perfect-rectangle/description/
+
+class Solution {
+public:
+    bool isRectangleCover(vector<vector<int>>& r) {
+        map<pair<int,int>,int> m;
+        for(auto x:r){
+            m[{x[0],x[1]}]+=1;
+            m[{x[0],x[3]}]-=1;
+            m[{x[2],x[1]}]-=1;
+            m[{x[2],x[3]}]+=1;
+        }
+        int ans = 0;
+        for(auto x:m){
+            if(x.second!=0){
+                if(abs(x.second)!=1){
+                    return 0;
+                }
+                ans += 1;
+            }
+        }
+        return (ans==4 );
+    }
+};

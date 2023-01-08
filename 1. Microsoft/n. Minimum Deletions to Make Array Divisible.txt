@@ -1,0 +1,25 @@
+Q - https://leetcode.com/problems/minimum-deletions-to-make-array-divisible/description/
+
+class Solution {
+public:
+    int minOperations(vector<int>& nums, vector<int>& numsDivide) {
+        int gcd = numsDivide[0];
+        for(auto x:numsDivide)gcd = __gcd(gcd,x);
+        unordered_map<int,int>m;
+        priority_queue<int,vector<int>,greater<>>pq;
+        for(auto x:nums){
+            if(m.find(x)==m.end())pq.push(x);
+            m[x] += 1;
+        }
+        int ans = 0;
+        while(!pq.empty()){
+            int x = pq.top();
+            pq.pop();
+            if(gcd%x==0){
+                return ans;
+            }
+            ans += m[x];
+        }
+        return -1;
+    }
+};

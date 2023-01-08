@@ -1,0 +1,31 @@
+Q - https://leetcode.com/problems/max-points-on-a-line/description/
+ 
+class Solution {
+public:
+    int maxPoints(vector<vector<int>>& points) {
+        int best = 1;
+        sort(points.begin(), points.end());
+        for(int i = 0; i < points.size(); i++){
+            double x1 = points[i][0];
+            double y1 = points[i][1];
+            map<double, int> slopes;
+            int inf = 0;
+            for(int j = i+1; j < points.size(); j++){
+                double x2 = points[j][0];
+                double y2 = points[j][1];
+                if(x1 == x2) inf++;
+                else{
+                    double dy = y2 - y1;
+                    double dx = x2 - x1;
+                    double s = dy / dx;
+                    slopes[s]++;
+                }
+            }
+            best = max(inf+1, best);
+            for(auto it = slopes.begin(); it != slopes.end(); ++it){
+                best = max(best, it->second+1);
+            }
+        }
+        return best;
+    }
+};

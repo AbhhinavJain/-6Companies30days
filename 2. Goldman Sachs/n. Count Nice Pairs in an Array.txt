@@ -1,0 +1,24 @@
+Q - https://leetcode.com/problems/count-nice-pairs-in-an-array/description/
+
+class Solution {
+public:
+    int mod = 1e9+7; 
+    int countNicePairs(vector<int>& nums) {
+        long long ans = 0;
+        unordered_map<int,int>m;
+        for(auto x:nums){
+            string t = to_string(x);
+            reverse(t.begin(),t.end());
+            int q = stoi(t);
+            m[((x)-q)]+=1;
+        }
+        for(auto x:m){
+            if(x.second>1){
+                long long t = x.second;
+                ans += ((t)*(t-1LL))/2;
+                ans %= mod;
+            }
+        }
+        return int(ans);
+    }
+};

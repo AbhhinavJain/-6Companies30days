@@ -1,0 +1,35 @@
+Q - https://leetcode.com/problems/all-elements-in-two-binary-search-trees/description/
+
+class Solution {
+public:
+    void dfs(TreeNode* root,vector<int>&a){
+        if(root==NULL)return;
+        dfs(root->left,a);
+        a.push_back(root->val);
+        dfs(root->right,a);
+    }
+    vector<int> getAllElements(TreeNode* root1, TreeNode* root2) {
+        vector<int> a,b;
+        dfs(root1,a);
+        dfs(root2,b);
+        cout<<b.size();
+        vector<int> ans;
+        int i = 0,j = 0;
+        while(i<a.size() && j<b.size()){
+            if(a[i]>b[j]){
+                ans.push_back(b[j]);
+                j+=1;
+            }
+            else{
+                ans.push_back(a[i]);
+                i+=1;
+            }
+        }
+        while(i<a.size()){
+            ans.push_back(a[i]);
+            i+=1;
+        }
+        while(j<b.size())ans.push_back(b[j]),j+=1;
+        return ans;
+    }
+};

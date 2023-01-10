@@ -1,0 +1,26 @@
+Q - https://leetcode.com/problems/ipo/description/
+
+class Solution {
+public:
+    int findMaximizedCapital(int k, int w, vector<int>& p, vector<int>& c) {
+        int ans = w;
+        priority_queue<pair<int,int>>pq;
+        int K = k,t = w;
+        vector<pair<int,int>> a(p.size());
+        for(int i=0;i<p.size();++i)a[i] = {c[i],p[i]};
+        sort(a.begin(),a.end());
+        int i = 0;
+        while(K--){
+            while(i<a.size() && a[i].first<=ans){
+                pq.push({a[i].second,a[i].first});
+                i+=1;
+            }
+            // cout<<pq.size()<<' ';
+            if(pq.size()==0)break;
+            auto x = pq.top();
+            pq.pop();
+            ans += x.first;
+        }
+        return ans;
+    }
+};

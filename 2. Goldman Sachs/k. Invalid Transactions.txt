@@ -1,0 +1,57 @@
+Q - https://leetcode.com/problems/invalid-transactions/description/
+
+class Solution {
+public:
+    vector<string> invalidTransactions(vector<string>& transactions) {
+        vector<string> result;
+        unsigned short s=transactions.size();
+        unsigned short i=0,j=0;
+        vector<string> n, c;
+        vector<unsigned short> t,a;
+        while(i<s){
+            string temp=transactions[i]+'\0';
+            string name="", city="";
+            unsigned short time=0, amount=0;
+            j=0;
+            while(temp[j]!=','){
+                name=name+temp[j];
+                j++;
+            }
+            j++;
+            while(temp[j]!=','){
+                time=time*10+temp[j]-'0';
+                j++;
+            }
+            j++;
+            while(temp[j]!=','){
+                amount=amount*10+temp[j]-'0';
+                j++;    
+            }
+            j++;
+            while(temp[j]!='\0'){
+                city=city+temp[j];
+                j++;
+            }
+            // cout<<name<<city<<time<<amount;
+            n.push_back(name);
+            t.push_back(time);
+            a.push_back(amount);
+            c.push_back(city);         
+           i++;
+        }
+        i=0;
+        while(i<n.size()){
+            j=0;
+            while(j<n.size()){
+               unsigned short temp=t[i]>t[j]?t[i]-t[j]:t[j]-t[i];
+                if(a[i]>1000 || ((n[i]==n[j]) && (c[i]!=c[j]) && (temp<=60))){
+                result.push_back(transactions[i]);
+                  break;
+                    }
+                    j++;
+                }
+                i++;
+        }
+        return result;
+    }
+};

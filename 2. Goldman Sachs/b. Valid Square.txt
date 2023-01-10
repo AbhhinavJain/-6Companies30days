@@ -1,0 +1,18 @@
+Q - https://leetcode.com/problems/valid-square/description/
+
+class Solution {
+public:
+    bool validSquare(vector<int>& p1, vector<int>& p2, vector<int>& p3, vector<int>& p4) {
+        vector<int> a(6);
+        a[0] = (((p1[0]-p2[0])*(p1[0]-p2[0])) + ((p1[1]-p2[1])*(p1[1]-p2[1])));
+        a[1] = (((p1[0]-p3[0])*(p1[0]-p3[0])) + ((p1[1]-p3[1])*(p1[1]-p3[1])));
+        a[2] = (((p1[0]-p4[0])*(p1[0]-p4[0])) + ((p1[1]-p4[1])*(p1[1]-p4[1])));
+        a[3] = (((p3[0]-p2[0])*(p3[0]-p2[0])) + ((p3[1]-p2[1])*(p3[1]-p2[1])));
+        a[4] = (((p4[0]-p2[0])*(p4[0]-p2[0])) + ((p4[1]-p2[1])*(p4[1]-p2[1])));
+        a[5] = (((p3[0]-p4[0])*(p3[0]-p4[0])) + ((p3[1]-p4[1])*(p3[1]-p4[1])));
+        sort(a.begin(),a.end());
+        for(int i=0;i<4;++i)if(a[0]!=a[i])return 0;
+        if(a[4]!=a[5] || a[5]==0)return 0;
+        return 1;
+    }
+};

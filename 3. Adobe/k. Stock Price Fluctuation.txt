@@ -1,0 +1,39 @@
+Q - https://leetcode.com/problems/stock-price-fluctuation/description/
+
+class StockPrice {
+public:
+    unordered_map<int,int> m;
+    multiset<int> s;
+    int curr=0,MaxTime=-1;
+    StockPrice() {}
+    
+    void update(int timestamp, int price) {
+        if(MaxTime==-1){
+            curr = price;
+            MaxTime = timestamp;
+        }
+        if(MaxTime<=timestamp){
+            MaxTime = timestamp;
+            curr = price;
+        }
+        if(m.find(timestamp)!=m.end()){
+            s.erase(s.find(m[timestamp]));
+        }
+        s.insert(price);
+        m[timestamp] = price;
+    }
+    
+    int current() {
+        return curr;
+    }
+    
+    int maximum() {
+        auto x = s.end();
+        x--;
+        return *x;
+    }
+    
+    int minimum() {
+        return *s.begin();
+    }
+};

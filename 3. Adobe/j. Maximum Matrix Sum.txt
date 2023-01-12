@@ -1,0 +1,24 @@
+Q - https://leetcode.com/problems/maximum-matrix-sum/description/
+class Solution {
+public:
+    long long maxMatrixSum(vector<vector<int>>& matrix) {
+        long long sum = 0;
+        int cntNeg = 0,Min=INT_MAX;
+        for(auto x:matrix){
+            for(auto y:x){
+                if(y<0){
+                    sum -= y;
+                    cntNeg+=1;
+                    if(-y<Min){
+                        Min = -y;
+                    }
+                }
+                else {sum += y;Min = min(Min,y);}
+            }
+        }
+        if(cntNeg%2){
+            sum -= 2*Min;
+        }
+        return sum;
+    }
+};

@@ -1,0 +1,56 @@
+Q - https://leetcode.com/problems/knight-probability-in-chessboard/description/
+
+class Solution {
+public:
+    double solve(int n,int k,int r,int c,vector<vector<vector<double>>>&dp){
+        if(k<=0)return 1.0;
+         int x = 0;
+        double ans = 0;
+        if(dp[r][c][k]!=-1)return dp[r][c][k];
+        if(r-2>=0){
+            if(c+1<n){
+                x += 1 ;
+                ans += solve(n,k-1,r-2,c+1,dp);
+            }
+            if(c-1>=0){
+                x += 1 ;
+                ans += solve(n,k-1,r-2,c-1,dp);
+            }
+        }
+        if(r+2<n){
+            if(c+1<n){
+                x += 1 ;
+                ans +=  solve(n,k-1,r+2,c+1,dp);
+            }
+            if(c-1>=0){
+                x += 1 ;
+                ans +=  solve(n,k-1,r+2,c-1,dp);
+            }
+        }
+        if(c-2>=0){
+            if(r+1<n){
+                x += 1 ;
+                ans +=  solve(n,k-1,r+1,c-2,dp);
+            }
+            if(r-1>=0){
+                x += 1 ;
+                ans +=  solve(n,k-1,r-1,c-2,dp);
+            }
+        }
+        if(c+2<n){
+            if(r+1<n){
+                x += 1 ;
+                ans +=  solve(n,k-1,r+1,c+2,dp);
+            }
+            if(r-1>=0){
+                x += 1 ;
+                ans +=  solve(n,k-1,r-1,c+2,dp);
+            }
+        }
+        return dp[r][c][k] = ans/8.0;
+    }
+    double knightProbability(int n, int k, int r, int c) {
+        vector<vector<vector<double>>>dp(n+1,vector<vector<double>>(n+1,vector<double>(k+1,-1)));
+        return solve(n,k,r,c,dp);
+    }
+};

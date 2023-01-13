@@ -1,0 +1,26 @@
+Q - https://leetcode.com/problems/number-of-matching-subsequences/description/
+
+class Solution {
+public:
+    int numMatchingSubseq(string s, vector<string>& words) {
+        vector<vector<int>> a(26);
+        int i = 0;
+        for(auto x:s){
+            a[x-97].push_back(i);
+            i+=1;
+        }
+        int ans = 0;
+        for(auto x:words){
+            int ind = -1,f=1;
+            for(auto y:x){
+                auto it = upper_bound(a[y-97].begin(),a[y-97].end(),ind);
+                if(it==a[y-97].end()){
+                    f=0;break;
+                }
+                ind = *it;
+            }
+            if(f)ans+=1;
+        }
+        return ans;
+    }
+};

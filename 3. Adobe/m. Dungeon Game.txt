@@ -1,0 +1,17 @@
+Q - https://leetcode.com/problems/dungeon-game/description/
+class Solution {
+public:
+    int solve(vector<vector<int>>&d,int i,int j,vector<vector<int>>&dp){
+        if(i>=d.size() || j>=d[0].size())return INT_MAX;
+        if(i+1==d.size() && j+1 == d[0].size())return (d[i][j]<=0 ? -d[i][j]+1 : 1);
+        if(dp[i][j]!=-1)return dp[i][j];
+        int t1 = solve(d,i+1,j,dp);
+        int t2 = solve(d,i,j+1,dp);
+        int t = min(t1,t2) - d[i][j];
+        return dp[i][j] = (t<=0 ? 1:t);
+    }
+    int calculateMinimumHP(vector<vector<int>>& d) {
+        vector<vector<int>> dp(d.size()+1,vector<int>(d[0].size()+1,-1));
+        return solve(d,0,0,dp);
+    }
+};

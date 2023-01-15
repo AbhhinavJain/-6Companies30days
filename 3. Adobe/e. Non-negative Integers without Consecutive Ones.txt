@@ -1,0 +1,51 @@
+Q - https://leetcode.com/problems/non-negative-integers-without-consecutive-ones/description/
+
+class Solution {
+public:
+    vector<int> dig;
+    int s;
+    vector<vector<vector<int>>> dp;
+    int solve(int idx, int prev, bool limit){
+        if(idx == s)
+            return 1;
+
+        if(dp[idx][prev][limit] != -1)
+            return dp[idx][prev][limit];
+        int ans=0;
+        if(!limit){
+            //pick any digit (0/1)
+            if(prev)
+                ans += solve(idx+1, 0, limit);
+            else{
+                ans += solve(idx+1, 0, limit);
+                ans += solve(idx+1, 1, limit);
+            }
+        }
+        else{
+            if(dig[idx] == 0)
+                ans += solve(idx+1, 0, 1);
+            else{
+                if(prev == 0){
+                    ans += solve(idx+1, 1, 1);
+                    ans += solve(idx+1, 0, 0);
+                }
+                else
+                    ans += solve(idx+1, 0, 0);
+            }
+            
+        }
+        return dp[idx][prev][limit] = ans;
+    }
+    int findIntegers(int n) {
+        int n1=n;
+        while(n1){
+            dig.push_back(n1%2);
+            n1/=2;
+        }
+        reverse(dig.begin(), dig.end());
+        s=dig.size();
+        dp = vector<vector<vector<int>>>(s, vector<vector<int>>(2, vector<int>(2, -1)));
+        return solve(0, 0, true);
+
+    }
+};

@@ -1,0 +1,25 @@
+Q - https://leetcode.com/problems/query-kth-smallest-trimmed-number/description/
+
+class Solution {
+public:
+    typedef pair<string,int> T;
+    vector<int> smallestTrimmedNumbers(vector<string>& nums, vector<vector<int>>& queries) {
+        int d = nums[0].length();
+        vector<int> ans;
+        for(auto q:queries){
+            priority_queue<T,vector<T>,greater<>>pq;
+            int f = 0;
+            for(auto x:nums){
+                string t = x.substr(d-q[1]);
+                pq.push({t,f});
+                f += 1;
+            }
+            int t = q[0]-1;
+            while(!pq.empty() && t--){
+                pq.pop();
+            }
+            ans.push_back(pq.top().second);
+        }
+        return ans;
+    }
+};

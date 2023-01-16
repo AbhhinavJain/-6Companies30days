@@ -1,0 +1,34 @@
+Q - https://leetcode.com/problems/shopping-offers/description/
+
+class Solution {
+public:
+    int solve(vector<int>&p,vector<vector<int>>&s,int i,vector<int>&n){
+        if(i>=s.size()) {
+            int t = 0;
+            for(int j=0;j<p.size();++j){
+                t += n[j]*p[j];
+            }
+            return t;
+        }
+        int t1 = INT_MAX,j=0;
+        bool f = 1;
+        while(j<p.size()){
+            if(n[j]<s[i][j]){
+                f = 0;
+                break;
+            }
+            j+=1;
+        }
+        if(f){
+            for(int j=0;j<p.size();++j)n[j] -= s[i][j];
+            t1 = s[i][p.size()] + solve(p,s,i,n);
+            for(int j=0;j<p.size();++j)n[j] += s[i][j];
+        }
+        int t2 = solve(p,s,i+1,n);
+        return min(t1,t2);
+    }
+    int shoppingOffers(vector<int>& price, vector<vector<int>>& special, vector<int>& needs) {
+
+        return solve(price,special,0,needs);
+    }
+};

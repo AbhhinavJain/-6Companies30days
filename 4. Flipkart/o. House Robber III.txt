@@ -1,0 +1,24 @@
+Q - https://leetcode.com/problems/house-robber-iii/description/
+
+class Solution {
+public:
+    unordered_map<TreeNode*,int>m;
+    int solve(TreeNode*root,int f){
+        if(root==NULL)return 0;
+        if(f){
+            return solve(root->left,0) + solve(root->right,0);
+        }
+        if(m.find(root)!=m.end())return m[root];
+        int t1 = 0,t2=0;
+        if(!f){
+            t1 += root->val + solve(root->left,1) + solve(root->right,1);
+            t2 += solve(root->left,0) + solve(root->right,0);
+            t1 = max(t1,t2);
+        }
+        return m[root] = t1;
+    }
+    int rob(TreeNode* root) {
+        // dfs(root);
+        return solve(root,0);
+    }
+};

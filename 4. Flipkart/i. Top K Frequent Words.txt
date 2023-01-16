@@ -1,0 +1,23 @@
+Q - https://leetcode.com/problems/top-k-frequent-words/description/
+
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        unordered_map<string,int>m;
+        for(auto x:words){
+            m[x]+=1;
+        }
+        vector<pair<int,string>> a;
+        for(auto x:m){
+            a.push_back({x.second,x.first});
+        }
+        sort(a.rbegin(),a.rend(),[](pair<int,string>t1,pair<int,string>t2){
+            if(t1.first==t2.first)
+            return(t1.second>t2.second);
+            return(t1.first<t2.first);
+        });
+        vector<string> ans;
+        for(int i=0;i<k;++i)ans.push_back(a[i].second);
+        return ans;
+    }
+};

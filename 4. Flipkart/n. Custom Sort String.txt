@@ -1,0 +1,24 @@
+Q - https://leetcode.com/problems/custom-sort-string/description/
+
+class Solution {
+public:
+    string customSortString(string order, string s) {
+        vector<int> b(26,0);
+        for(auto x:s){
+            b[x-97]+=1;
+        }
+        string ans;
+        for(auto x:order){
+            int t = b[x-97];
+            while(t--)ans += x;
+            b[x-97]=0;
+        }
+        int i = 0;
+        for(auto x:b){
+            int t = x;
+            while(t--)ans += char(i+97);
+            i+=1;
+        }
+        return ans;
+    }
+};

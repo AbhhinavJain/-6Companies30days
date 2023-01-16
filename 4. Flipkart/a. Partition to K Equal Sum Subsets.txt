@@ -1,0 +1,29 @@
+class Solution {
+public:
+    
+Q - https://leetcode.com/problems/partition-to-k-equal-sum-subsets/description/
+  
+  bool helper(vector<bool> &vis, vector<int>& nums, int sum, int k, int start, int curr){
+        if(k==1) return true;
+        if(curr > sum || start >= nums.size()) return false;
+        if(sum==curr) return helper(vis, nums, sum, k-1, 0, 0);
+        for(int i=start;i<nums.size();i++){
+            if(vis[i])continue;
+            vis[i]=true;
+            if(helper(vis,nums,sum,k,i+1,curr+nums[i]))return true;
+            vis[i]=false;
+            // return false;
+        }
+        return false;
+    }
+    
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        int sum=0;
+        for(int i=0;i<nums.size();i++) sum+=nums[i];
+        sort(nums.begin(), nums.end(), greater<int>());
+        if(sum%k!=0) return false;
+        if(k>nums.size())return false;
+        vector<bool> vis(nums.size(), false);
+        return helper(vis, nums, sum/k, k, 0, 0);
+    }
+};

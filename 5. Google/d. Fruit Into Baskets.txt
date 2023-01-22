@@ -1,0 +1,30 @@
+Q - https://leetcode.com/problems/fruit-into-baskets/description/
+
+class Solution {
+public:
+    int totalFruit(vector<int>& f) {
+        unordered_map<int,int>m;
+        int ans = 0,i=0,j=0;
+        while(i<f.size()){
+            if(m.size()<2){
+                m[f[i]] += 1;
+                ans = max(ans,i-j+1);
+            }
+            else if(m.size()==2 && m.find(f[i])!=m.end()){
+                m[f[i]] += 1;
+                ans = max(ans,i-j+1);
+            }
+            else{
+                m[f[i]] += 1;
+                while(m.size()>2 && j<f.size()){
+                    m[f[j]]-=1;
+                    if(m[f[j]]==0)m.erase(f[j]);
+                    j+=1;
+                }
+                ans = max(ans,i-j+1);
+            }
+            i+=1;
+        }
+        return ans;
+    }
+};

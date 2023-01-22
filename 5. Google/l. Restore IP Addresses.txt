@@ -1,0 +1,43 @@
+Q - https://leetcode.com/problems/restore-ip-addresses/description/
+
+class Solution {
+public:
+    vector<string>ans;
+    void solve(string&s,int i,string&t,int k){
+        if(i>=s.length()){
+            if(k>0)return;
+            int j = 0;
+            while(j<t.length()){
+                string xt;
+                while(j<t.length() && t[j]!='.'){
+                    xt += t[j];
+                    j+=1;
+                }
+                if(xt.length()>1 && xt[0]=='0')return;
+                if(xt.length()>3 || 255<stoi(xt))return;
+                j+=1;
+            }
+            ans.push_back(t);
+            return;
+        }
+        if(t.length()==0){
+            t += s[i];
+            solve(s,i+1,t,k);
+        }
+        else{
+            if(k>0 && t.back()!='.'){
+                t+='.';
+                solve(s,i,t,k-1);
+                t.pop_back();
+            }
+            t += s[i];
+            solve(s,i+1,t,k);
+            t.pop_back();
+        }
+    }
+    vector<string> restoreIpAddresses(string s) {
+        string t;
+        solve(s,0,t,3);
+        return ans;
+    }
+};

@@ -1,0 +1,13 @@
+Q - https://leetcode.com/problems/maximum-number-of-coins-you-can-get/description/
+
+class Solution {
+public:
+    int maxCoins(vector<int>& piles) {
+        sort(piles.rbegin(),piles.rend());
+        int ans = 0,t = piles.size()/3;
+        for(int i=1; i<piles.size() && t--; i+=2){
+            ans += piles[i];
+        }
+        return ans;
+    }
+};

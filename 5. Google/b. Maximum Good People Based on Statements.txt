@@ -1,0 +1,46 @@
+Q - https://leetcode.com/problems/maximum-good-people-based-on-statements/
+
+class Solution {
+private: 
+    int max_count = 0;
+    int n;
+public:
+    // use dfs to find all possible combinations since n <= 15; 
+    int maximumGood(vector<vector<int>>& statements) {
+        n = statements.size(); // make is global to save typing
+        vector<int> curr; // this is the current people prediction
+        dfs(statements, curr, 0);
+        return max_count;
+    }
+ 
+    void dfs(vector<vector<int>>& statements, vector<int>& curr, int count){
+        if(curr.size() == n){
+            // we have predications for all people
+            if(isValid(curr, statements)){
+                max_count = max(max_count, count);
+            }
+            return;
+        }
+        // people i is bad
+        curr.push_back(0);
+        dfs(statements, curr, count);
+        curr.pop_back();
+        // people i is good
+        curr.push_back(1);
+        dfs(statements, curr, count + 1);
+        curr.pop_back();
+    }
+    // go for all statements and check if it satisfies our prediction
+    bool isValid(vector<int>& curr, vector<vector<int>>& statements){
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(i == j) continue;
+                // if I predict i is correct, then everything he says should be correct
+                if(curr[i] == 1){
+                    if(statements[i][j] != 2 && statements[i][j] != curr[j]) return false;
+                }
+            }
+        }
+        return true;
+    }
+};

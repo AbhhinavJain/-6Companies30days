@@ -1,0 +1,20 @@
+Q - https://leetcode.com/problems/distinct-echo-substrings/description/
+
+#define ll                 long long
+
+class Solution {
+public:
+
+    // brute force // accepted
+    int distinctEchoSubstrings(string& s) {
+        unordered_set<string> st;
+        for (int i = 0; i < s.size(); i++) {
+            // assume ith index as start of string, so first substring s[i...i+len-1] and second is s[i+len...i+len+len-1]
+            for (int len = 1; i + 2 * len <= s.size(); len++) {
+                // compare both by compare()
+                if (s.compare(i, len, s, i + len, len) == 0) st.insert(s.substr(i, len));
+            }
+        }
+        return st.size();
+    }
+};

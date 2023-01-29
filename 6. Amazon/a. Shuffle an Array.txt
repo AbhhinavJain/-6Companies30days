@@ -1,0 +1,21 @@
+Q - https://leetcode.com/problems/shuffle-an-array/description/
+
+class Solution {
+public:
+    vector<int> a,b;
+    Solution(vector<int>& nums) {
+        a = nums;
+        b = nums;
+    }
+    
+    vector<int> reset() {
+        return a;
+    }
+    
+    vector<int> shuffle() {
+        int x = rand()%(a.size());
+        int y = rand()%(a.size());
+        swap(b[x],b[y]);
+        return b;
+    }
+};

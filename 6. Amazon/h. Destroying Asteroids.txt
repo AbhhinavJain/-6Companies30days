@@ -1,0 +1,15 @@
+Q - https://leetcode.com/problems/destroying-asteroids/description/
+
+class Solution {
+public:
+    bool asteroidsDestroyed(int mass, vector<int>& a) {
+        sort(a.begin(),a.end());
+        long long t = mass;
+        for(auto x:a){
+            if(x>t)return 0;
+            t += x;
+            if(t>1e5+1)return 1;
+        }
+        return 1;
+    }
+};

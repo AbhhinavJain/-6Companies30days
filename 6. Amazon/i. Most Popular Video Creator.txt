@@ -1,0 +1,39 @@
+Q - https://leetcode.com/problems/most-popular-video-creator/description/
+
+class Solution {
+public:
+    #define fi first 
+    #define se second 
+    vector<vector<string>> mostPopularCreator(vector<string>& c, vector<string>& ids, vector<int>& v) {
+        map<string,pair<pair<long long,int>,string>>m;
+        for(int i=0;i<c.size();++i){
+            if(m.find(c[i])!=m.end()){
+                m[c[i]].fi.fi += v[i];
+                if(m[c[i]].fi.se<v[i]){
+                    m[c[i]].se = ids[i];
+                    m[c[i]].fi.se = v[i];
+                }
+                else if(m[c[i]].fi.se==v[i] && m[c[i]].se>ids[i]){
+                    m[c[i]].se = ids[i];
+                }
+            }
+            else{
+                m[c[i]] = {{v[i],v[i]},ids[i]};
+            }
+        }
+        vector<pair<long long,pair<string,string>>> a;
+        for(auto x:m){
+            a.push_back({x.se.fi.fi,{x.fi,x.se.se}});
+        }
+        sort(a.rbegin(),a.rend());
+        long long t = a[0].fi;
+        vector<vector<string>>ans;
+        for(auto x:a){
+            if(t==x.fi){
+                ans.push_back({x.se.fi,x.se.se});
+            }
+            else break;
+        }
+        return ans;
+    }
+};
